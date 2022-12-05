@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.MemberMapper">
+
+	<!-- 시간정보 조회 -->
+	<select resultType="string" id="getTime">
+		select now() 
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="createMember">
+		insert into tbl_member(userid,userpw,username,useremail)values(#{userid},#{userpw},#{username},#{useremail}) 
+	</insert>
+	
+	<!-- 특정 회원정보 조회 -->
+	<select resultType="com.itwillbs.domain.MemberVO" id="getMember">
+		select * from tbl_memberwhere userid = #{userid}
+	</select>
+	
+	<!-- 로그인 처리 -->
+	<select resultType="com.itwillbs.domain.MemberVO" id="loginMember">
+		select * from tbl_memberwhere userid=#{userid} and userpw=#{userpw} 
+	</select>
+
+</mapper>
