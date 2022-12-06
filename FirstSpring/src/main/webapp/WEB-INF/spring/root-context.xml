@@ -49,5 +49,7 @@
 	<!-- sqlSessionTemplate 객체 (디비연결,mybatis설정, sql-mapper설정, 자원해제) -->
 	
 	<!-- 디비관련 패키지(persistence)를 연결 -->
-	<context:component-scan base-package="com.itwillbs.web" />
+	<context:component-scan base-package="com.itwillbs.persistence" />
+	<!-- 서비스관련 패키지(service)를 연결 -->
+	<context:component-scan base-package="com.itwillbs.service"></context:component-scan>
 </beans>

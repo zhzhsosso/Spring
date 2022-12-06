@@ -33,9 +33,9 @@ public class MemberDAOTest {
 		
 		// 회원정보 생성(사용자 입력 정보)
 		MemberVO vo = new MemberVO();
-		vo.setUserid("itwill01");
-		vo.setUserpw("1234");
-		vo.setUsername("사용자01");
+		vo.setUserid("itwill02");
+		vo.setUserpw("122");
+		vo.setUsername("사용자02");
 		vo.setUseremail("user01@user.com");		
 		
 		dao.insertMember(vo);

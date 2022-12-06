@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.MemberVO;
@@ -14,6 +16,9 @@ import com.itwillbs.domain.MemberVO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO{
+	
+	
+	private static final Logger mylog = LoggerFactory.getLogger(MemberDAOImpl.class);
 	
 	// 디비 연결정보 필요함 => 의존관계
 	@Inject
@@ -40,9 +45,12 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 	@Override
 	public void insertMember(MemberVO vo) {
+//		System.out.println("DAO : "+vo);
+		mylog.info("서비스->DAO->mapper");
 		//디비연결 - sql 작성 - 실행
 		sqlSession.insert(NAMESPACE + ".createMember",vo);
-		System.out.println(" DAOImpl : 회원가입 성공! ");		
+//		System.out.println(" DAOImpl : 회원가입 성공! ");
+		mylog.info("mapper-> DAO -> 서비스");
 	}
 	
 	
