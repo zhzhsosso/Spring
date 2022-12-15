@@ -6,4 +6,15 @@
   
   <mapper namespace="com.itwillbs.mapper.BoardMapper">
   	<select resultType="string" id="getTime">select now() </select>
+  	
+  	<!-- 게시판 글쓰기 -->
+  	<insert id="create">
+  		insert into tbl_board (title,content,writer) 
+  		values (#{title},#{content},#{writer})
+  	</insert>
+  	
+  	
   </mapper>
+  
+  
+  
