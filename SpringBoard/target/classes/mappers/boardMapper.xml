@@ -13,6 +13,16 @@
   		values (#{title},#{content},#{writer})
   	</insert>
   	
+  	<!-- 게시판 전체목록(all) -->
+  	<select id="listAll" resultType="BoardVO">
+  		select * from tbl_board
+  	</select>
+  	
+  	<!-- 게시판 글 조회수 1증가 -->
+  	<update id="updateViewcnt">
+  		update tbl_board set viewcnt = viewcnt+1 
+  		where bno = #{bno}
+  	</update>
   	
   </mapper>
   

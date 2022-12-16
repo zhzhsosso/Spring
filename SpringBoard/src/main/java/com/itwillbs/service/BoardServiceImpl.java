@@ -1,5 +1,7 @@
 package com.itwillbs.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,19 @@ public class BoardServiceImpl implements BoardService{
 		mylog.debug("글쓰기 완료 -> 컨트롤러 이동");
 		
 	}
+
+	@Override
+	public List<BoardVO> getBoardListAll() throws Exception {
+		mylog.debug("getBoardListAll()-DAO 호출(결과 리턴받기)");
+		return dao.getBoardListAll();
+	}
+
+	@Override
+	public void updateViewcnt(int bno) throws Exception {
+		mylog.debug("updateViewcnt(Integer bno) - DAO 호출(조회수 1증가)");
+		dao.updateViewcnt(bno);	
+		
+	}
+	
 	
 }

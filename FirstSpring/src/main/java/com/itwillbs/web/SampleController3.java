@@ -23,7 +23,7 @@ public class SampleController3 {
 		//객체 정보를 전달
 		//=> Model 객체(스프링에서 제공하는 컨트롤러의 정보를 뷰페이지로 전달하는 객체)
 //		model.addAttribute(attributeName,attributeValue)
-		MemberVO vo = new MemberVO();
+//		MemberVO vo = new MemberVO();
 		vo.setUserid("admin");
 		vo.setUserpw("1234");
 		vo.setUsername("관리자");

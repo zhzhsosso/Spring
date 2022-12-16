@@ -1,5 +1,7 @@
 package com.itwillbs.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,6 +38,28 @@ public class BoardDAOImpl implements BoardDAO{
 		
 		mylog.debug("작성 완료!");
 	}
+
+	@Override
+	public List<BoardVO> getBoardListAll() throws Exception {
+		mylog.debug("getBoardListAll() -> sqlSession-mapper 호출");
+		
+		List<BoardVO> boardList = sqlSession.selectList(NAMESPACE+".listAll");
+//		mylog.debug(boardList+"");
+		mylog.debug("게시판 글 개수 : " + boardList.size()+"");
+		
+		return boardList;
+	}
+
+	@Override
+	public void updateViewcnt(Integer bno) throws Exception {
+		mylog.debug("updateViewcnt(Integer bno) -> sqlSession 객체");
+		
+		sqlSession.update(NAMESPACE+".updateViewcnt",bno);
+	}
+	
+	
+	
+	
 	
 	
 
