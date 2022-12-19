@@ -41,5 +41,29 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 	
+	@Override
+	public BoardVO getBoard(Integer bno) throws Exception{
+		mylog.debug("getBoard(Integer bno)호출");
+		//db정보만 띄워줌
+		return dao.getBoard(bno);
+	}
+
+	@Override
+	public Integer updateBoard(BoardVO vo) throws Exception {
+		mylog.debug("updateBoard(BoardVO vo)");
+		return dao.updateBoard(vo);
+		
+	}
+
+	@Override
+	public void deleteBoard(int bno) throws Exception {
+		
+		dao.deleteBoard(bno);
+	}
+	
+	
+	
+	
+	
 	
 }

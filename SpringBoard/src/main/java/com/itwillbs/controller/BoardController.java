@@ -91,7 +91,7 @@ public class BoardController {
 	// http://localhost:8080/board/read?bno=1
 	//게시판 본문보기
 	@RequestMapping(value="/read", method=RequestMethod.GET)
-	public void readGET(@RequestParam("bno") int bno, HttpSession session) throws Exception{
+	public void readGET(Model model,@RequestParam("bno") int bno, HttpSession session) throws Exception{
 		//전달정보 (bno)
 		mylog.debug("전달정보 (bno): " +bno);
 		
@@ -109,7 +109,61 @@ public class BoardController {
 			session.setAttribute("updateCheck", !isUpdateCheck);
 		}
 		//서비스 -> DAO (특정 글번호에 해당하는 정보 가져오기)
+		BoardVO vo = service.getBoard(bno);
+		
 		
 		//연결된 뷰페이지로 정보 전달(model)
+		model.addAttribute("vo", vo);
+		
+//		model.addAttribute(service.getBoard(bno));
+		//이렇게도 가능
+		
+		
+	}
+	
+	//수정 GET
+	@RequestMapping(value="/modify", method=RequestMethod.GET)
+	public void modifyGET(Model model,int bno) throws Exception{
+		//파라미터 저장(bno)
+		//서비스 - DAO(글 조회)
+		//model 객체 사용 - view 페이지로 정보 전달
+		model.addAttribute("vo",service.getBoard(bno));
+		// /board/modify.jsp 페이지 이동
+		
+	}
+	
+	//수정 POST
+	@RequestMapping(value="/modify",method=RequestMethod.POST)
+	public String modifyPOST(BoardVO vo,RedirectAttributes rttr) throws Exception{
+		//전달된 정보(수정할 정보) 저장
+		mylog.debug(vo+"");
+		
+		//서비스 - DAO : 정보 수정 메서드 호출
+		int result = service.updateBoard(vo);
+		
+		if(result > 0) {
+			//수정완료 - 정보 전달
+			rttr.addFlashAttribute("result", "modOK");	
+		}
+		
+		//페이지 이동(/board/list)
+		return "redirect:/board/list";
+	}
+	
+	//삭제하기
+	@RequestMapping(value="/remove",method=RequestMethod.POST)
+	public String removePOST(int bno,RedirectAttributes rttr) throws Exception{
+		//전달정보 저장(bno)
+		
+		//서비스 - DAO : 게시판글 삭제 메서드 호출
+		service.deleteBoard(bno);
+		
+		
+		//삭제완료 정보를 list페이지로 전달
+		rttr.addFlashAttribute("result", "delOK");	
+		
+		
+		//게시판 리스트로 이동(/board/list)
+		return "redirect:/board/list";
 	}
 }
