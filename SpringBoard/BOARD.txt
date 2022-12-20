@@ -1,0 +1,149 @@
+BOARD.txt
+
+CREATE TABLE `springdb`.`tbl_board` (
+  `bno` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(200) NOT NULL,
+  `content` TEXT NULL,
+  `writer` VARCHAR(45) NOT NULL,
+  `regdate` TIMESTAMP NOT NULL DEFAULT now(),
+  `viewcnt` INT NULL DEFAULT 0,
+  PRIMARY KEY (`bno`));
+  
+  
+  
+  <!-- 한글처리 필터 설정 -->
+	<filter>
+	   <filter-name>encoding</filter-name>
+	   <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	    <init-param>
+	    	<param-name>encoding</param-name>
+	    	<param-value>UTF-8</param-value>
+	    </init-param>
+	</filter>
+	<filter-mapping>
+	  <filter-name>encoding</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 한글처리 필터 설정 -->
+	
+	
+	
+	
+	https://adminlte.io/themes/AdminLTE/index2.html
+	
+	
+	* 의존 객체 주입
+	
+	@Inject
+	 => Java에서 지원하는 어노테이션(특정 프레임워크에 종속적이지 않다)
+	 
+	 해당객체를 찾는 순서
+	 [ 타입 -> @Qualifier -> 이름 -> 실패 ]
+	 
+	 * @Autowired 동일한 동작 수행 (찾는 순서가 다름)
+	 * 빌드도구 (Maven/Gradle) 라이브러리 추가 필요
+	 
+	 * 사용가능 위치 : 멤버변수,setter(),생성자,일반메서드
+	 
+	 ------------------------------------------------------------------
+	@Autowired
+	 => Spring에서 지원하는 어노테이션
+	 
+	  해당객체를 찾는 순서
+	 [ 타입 ->  이름 ->  @Qualifier -> 실패 ]
+	 
+	 * <context:annotaion-config/> 설정값 필요 (스프링 기본 설정값)
+	 
+	 * 사용가능 위치 : 멤버변수,setter(),생성자,일반메서드
+	 
+	 
+	 ------------------------------------------------------------------
+	@Resource
+	 => Java에서 지원하는 어노테이션(특정 프레임워크에 종속적이지 않다)   
+	
+	  해당객체를 찾는 순서
+	 [ 이름 -> 타입 -> @Qualifier -> 실패 ]
+	
+	 * <context:annotaion-config/> 설정값 필요 
+	 	 
+	 * 사용가능 위치 : 멤버변수,setter()
+	
+	 ------------------------------------------------------------------
+	 @Qualifier
+	 
+	 * 타입이 동일한 객체(bean)가 여러개 있는경우 => 스프링 컨테이너 초기화 =>Exception
+	   (@Autowired 동일한 타입에 여러곳 사용)
+	 
+	 * 문제 상황을 해결하기 위해서 객체의 이름을 지정  
+	   <context:annotaion-config>
+	 	 <bean id="객체명" class="객체 주소">
+	 	    <qulifier value="dao1"/>
+	 	 </bean>	 
+	   </context:annotaion-config>
+	 
+	 
+	 	@Inject  @Qualifier("Bdao")
+		private BoardDAO dao;
+	 
+	 	
+	
+	* 공통주소 URI 구분
+	* 각 기능별 URI를 체크
+	* 각 URI별 호출방식(GET/POST)
+	* 결과/페이지 출력
+	* 예외처리
+	* 서비스계층
+	* DAO - SQL준비 
+	
+	
+	* AOP(Aspect Oriented Programming) : 관점지향 프로그래밍
+	=> 내가(개발자가) 관심 있는 것만 개발 하도록 하는것
+	  관심외 요소 : 로그,보안,트렉젠션...
+	=> 메서드 안에서 주기능, 보조기능을 분리해서 필요에 따라서 
+		적용해서 사용 하는 방법
+		
+	* AOP 용어
+	- aspect : 구현하고자 하는 보조 기능
+	- advice : aspect의 실체 (구현클래스), 메서드 호출 기준으로 여러곳에서 실행가능
+	- joinpoint : advice 객체가 적용되는 지점(스프링-메서드 결합점제공)
+	- pointcut : advice 객체가 적용되는 대상을 지정(패키지명/클래스명/메서드명- 정규식)	  
+	- target : advice가 적용되는 클래스  
+	- weaving : advice를 주기능에 적용하는 것
+	
+	* AOP 적용해보기
+	1) target(클래스) 지정하기
+	2) advice(클래스) 지정하기
+	3) 설정파일(스프링-xml파일) - pointcut을 설정
+	4) 설정파일 - advice와 pointcut을 연결(어드바이저)
+	5) 스프링 - ProxyFactoryBean 클래스 (타겟 - 어드바이저 연결)
+	6) getBean() 객체 접근 (AOP 적용된 상태의 동작 수행가능)
+	
+
+
+  * 페이징 처리
+    1) 필요한 만큼만 정보를 가져오기
+    2) 최대한 빠르게 정보를 가져오기
+    
+    - 페이지 호출시 페이징처리 여부 판단 (list 페이지)
+    - 페이지 블럭을 통한 페이지 이동 ( 1,2,3,4,5.... )
+    - 본문,수정,삭제동작에서 목록으로 이동 하는 동작 
+      (기존의 페이지를 유지)
+    
+    - 반드시 GET방식만 사용가능
+    
+    
+    <a> 태그 사용한 페이지 이동(페이징처리) (네이버-검색포털)
+     -> 상대적으로 속도가 느림, a태그는 검색에 유리(HTML 파싱)
+    <form> 태그 사용한 페이지 이동(페이징처리) (쿠팡-쇼핑몰)
+     -> 상대적으로 속도가 빠름, 검색보다 빠른정보처리 
+       	
+	
+	
+	
+	
+	
+	
+	
+	
+	
